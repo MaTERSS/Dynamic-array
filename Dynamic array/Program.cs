@@ -8,6 +8,7 @@
 Внимание, нельзя использовать List<T> и Array.Resize 
  */
 using System;
+using System.Data;
 using System.Text;
 
 namespace CSharplight
@@ -16,54 +17,44 @@ namespace CSharplight
     {
         static void Main(string[] args)
         {
-            int[] numbers = new int[0];
-            int sum = 0;
+            int[] numbers = new int[0]; 
+            string input;
 
-            while (true)
+            string commandSum = "sum";
+            string commandExit = "exit";
+
+            bool isWork = true;
+
+            while (isWork)
             {
-                Console.WriteLine("Введеннные числа:");
+                Console.WriteLine("Введенные числа: " + string.Join(", ", numbers));
+                Console.Write("Введите число (или команду 'sum' для суммы, 'exit' для выхода): ");
+                input = Console.ReadLine();
 
-                for (int i = 0; i < numbers.Length; i++)
+                if (input.ToLower() == commandSum)
                 {
-                    Console.Write(numbers[i] + " ");
-                }
-
-                Console.WriteLine();
-                Console.WriteLine("Введите число.\nВведите 'sum' для вывода суммы.\nВведите 'exit' для выхода:\n");
-                string input = Console.ReadLine();
-
-                if (input.ToLower() == "sum")
-                {
+                    int sum = 0;
                     for (int i = 0; i < numbers.Length; i++)
                     {
                         sum += numbers[i];
                     }
-
-                    Console.WriteLine("Сумма введённых чисел: " + sum);
+                    Console.WriteLine("Сумма всех введенных чисел: " + sum);
                 }
-
-                else if (input.ToLower() == "exit")
+                else if (input.ToLower() == commandExit)
                 {
-                    break;
+                    isWork = false; 
                 }
-
+                else if (int.TryParse(input, out int number))
+                {
+                    Array.Resize(ref numbers, numbers.Length + 1);
+                    numbers[numbers.Length - 1] = number;
+                }
                 else
                 {
-                    if (int.TryParse(input, out int number))
-                    {
-                        int[] newNumbers = new int[numbers.Length + 1];
-                        for (int i = 0; i < numbers.Length; i++)
-                        {
-                            newNumbers[i] = numbers[i];
-                        }
-                        newNumbers[numbers.Length] = number;
-                        numbers = newNumbers;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Пожалуйста, введите корректное число или команду.");
-                    }
+                    Console.WriteLine("Ошибка: введите корректное число или команду.");
                 }
+
+                Console.WriteLine(); 
             }
         }
     }
