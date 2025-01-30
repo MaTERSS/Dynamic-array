@@ -41,6 +41,7 @@ namespace CSharplight
                     {
                         sum += number;
                     }
+                 
                     Console.WriteLine("Сумма всех введенных чисел: " + sum);
                 }
                 else
@@ -52,6 +53,7 @@ namespace CSharplight
                         {
                             newNumbers[i] = numbers[i];
                         }
+                     
                         newNumbers[newNumbers.Length - 1] = number;
                         numbers = newNumbers;
                     }
