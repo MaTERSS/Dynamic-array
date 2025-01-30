@@ -17,44 +17,49 @@ namespace CSharplight
     {
         static void Main(string[] args)
         {
-            int[] numbers = new int[0]; 
-            string input;
+            const string ExitCommand = "exit";
+            const string SumCommand = "sum";
 
-            string commandSum = "sum";
-            string commandExit = "exit";
+            int[] numbers = new int[0];
 
-            bool isWork = true;
+            bool isWork = true; 
 
             while (isWork)
             {
-                Console.WriteLine("Введенные числа: " + string.Join(", ", numbers));
-                Console.Write("Введите число (или команду 'sum' для суммы, 'exit' для выхода): ");
-                input = Console.ReadLine();
+                Console.WriteLine("Текущие числа: " + string.Join(", ", numbers));
+                Console.Write($"Введите число (или команду '{SumCommand}' для суммы, '{ExitCommand}' для выхода): ");
+                string input = Console.ReadLine();
 
-                if (input.ToLower() == commandSum)
-                {
-                    int sum = 0;
-                    for (int i = 0; i < numbers.Length; i++)
-                    {
-                        sum += numbers[i];
-                    }
-                    Console.WriteLine("Сумма всех введенных чисел: " + sum);
-                }
-                else if (input.ToLower() == commandExit)
+                if (input.Equals(ExitCommand, StringComparison.OrdinalIgnoreCase))
                 {
                     isWork = false; 
                 }
-                else if (int.TryParse(input, out int number))
+                else if (input.Equals(SumCommand, StringComparison.OrdinalIgnoreCase))
                 {
-                    Array.Resize(ref numbers, numbers.Length + 1);
-                    numbers[numbers.Length - 1] = number;
+                    int sum = 0;
+                    foreach (int number in numbers)
+                    {
+                        sum += number;
+                    }
+                    Console.WriteLine("Сумма всех введенных чисел: " + sum);
                 }
                 else
                 {
-                    Console.WriteLine("Ошибка: введите корректное число или команду.");
+                    if (int.TryParse(input, out int number))
+                    {
+                        int[] newNumbers = new int[numbers.Length + 1];
+                        for (int i = 0; i < numbers.Length; i++)
+                        {
+                            newNumbers[i] = numbers[i];
+                        }
+                        newNumbers[newNumbers.Length - 1] = number;
+                        numbers = newNumbers;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Некорректный ввод. Пожалуйста, вводите только числа или команды.");
+                    }
                 }
-
-                Console.WriteLine(); 
             }
         }
     }
