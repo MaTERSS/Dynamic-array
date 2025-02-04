@@ -38,6 +38,7 @@ namespace CSharplight
                 {
                     int sum = 0;
                     foreach (int number in numbers)
+                     
                     {
                         sum += number;
                     }
@@ -49,6 +50,7 @@ namespace CSharplight
                     if (int.TryParse(input, out int number))
                     {
                         int[] newNumbers = new int[numbers.Length + 1];
+                     
                         for (int i = 0; i < numbers.Length; i++)
                         {
                             newNumbers[i] = numbers[i];
